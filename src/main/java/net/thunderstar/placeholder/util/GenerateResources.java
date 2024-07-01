@@ -1,0 +1,51 @@
+package net.thunderstar.placeholder.util;
+
+import java.awt.*;
+import java.io.*;
+
+public class GenerateResources implements Serializable {
+    public static void writeFiles() throws IOException {
+        Images.HOME_WALL_1_COLORS = Images.generateColorArrays(Images.HOME_WALL_1);
+        writer(Images.HOME_WALL_1_COLORS, "home_wall_1.txt");
+
+
+        Images.LEVEL0_WALL_1_COLORS = Images.generateColorArrays(Images.LEVEL0_WALL_1);
+        writer(Images.LEVEL0_WALL_1_COLORS, "level0_wall_1.txt");
+
+        Images.LEVEL0_FLOOR_1_COLORS = Images.generateColorArrays(Images.LEVEL0_FLOOR_1);
+        writer(Images.LEVEL0_FLOOR_1_COLORS, "level0_floor_1.txt");
+
+        Images.LEVEL0_CEILING_1_COLORS = Images.generateColorArrays(Images.LEVEL0_CEILING_1);
+        writer(Images.LEVEL0_CEILING_1_COLORS, "level0_ceiling_1.txt");
+    }
+
+    public static void writer(Object object, String file_name) throws IOException {
+        File file = new File("..\\First Person Backrooms Game\\src\\main\\resources\\assets\\placeholder\\generated\\resources\\" + file_name);
+        file.createNewFile();
+        System.out.println("File created: " + file);
+
+        FileOutputStream fileOutputStream = new FileOutputStream("..\\First Person Backrooms Game\\src\\main\\resources\\assets\\placeholder\\generated\\resources\\" + file_name);
+        ObjectOutput objectOutput = new ObjectOutputStream(fileOutputStream);
+        objectOutput.writeObject(object);
+
+        System.out.println("File written: ..\\First Person Backrooms Game\\src\\main\\resources\\assets\\placeholder\\generated\\resources\\" + file_name);
+    }
+
+
+    public static void readFiles() throws IOException, ClassNotFoundException {
+        Images.HOME_WALL_1_COLORS = colorArrayReader("home_wall_1.txt");
+        Images.LEVEL0_WALL_1_COLORS = colorArrayReader("level0_wall_1.txt");
+        Images.LEVEL0_FLOOR_1_COLORS = colorArrayReader("level0_floor_1.txt");
+        Images.LEVEL0_CEILING_1_COLORS = colorArrayReader("level0_ceiling_1.txt");
+    }
+
+    public static Color[][] colorArrayReader(String file_name) throws IOException, ClassNotFoundException {
+        FileInputStream fileInputStream = new FileInputStream("..\\First Person Backrooms Game\\src\\main\\resources\\assets\\placeholder\\generated\\resources\\" + file_name);
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        Color[][] o = (Color[][])objectInputStream.readObject();
+
+        System.out.println("File read: " + file_name);
+
+        return o;
+    }
+}
