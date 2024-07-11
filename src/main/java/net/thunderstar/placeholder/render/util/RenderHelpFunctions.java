@@ -8,7 +8,6 @@ import java.awt.*;
 import java.nio.ByteBuffer;
 
 public class RenderHelpFunctions {
-    //TODO: optimize
     public static Color getColor(Wall wall, int bottom, int height, int originX, int originY, int originZ, float angle, float dist, float offsetX, float offsetY, float fov, float r_fov) {
         if (wall.w_texture == null) {
             return null;
