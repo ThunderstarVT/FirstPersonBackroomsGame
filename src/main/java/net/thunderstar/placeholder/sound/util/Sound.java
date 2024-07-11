@@ -8,7 +8,7 @@ public class Sound {
     public Clip s_clip;
     public int s_duration;
 
-    public Sound(String file_name, int duration) {
+    public Sound(String file_name, float duration) {
         File soundFile = new File(Sounds.defaultPath + file_name);
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);
@@ -20,6 +20,6 @@ public class Sound {
             throw new RuntimeException(e);
         }
 
-        s_duration = duration;
+        s_duration = (int) (duration*100);
     }
 }

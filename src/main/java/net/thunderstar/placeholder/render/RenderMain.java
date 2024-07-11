@@ -62,7 +62,10 @@ public class RenderMain {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                RenderFunctions.Game.render();
+                // Player.variables.posX = (float) (1e3 * Math.tan(System.nanoTime()*1e-9));
+
+                //RenderFunctions.Game.render();
+                RenderFunctions.Game.portalRender();
 
                 //newTime[0] = System.nanoTime()/1e9;
                 //deltaTime[0] = newTime[0] - oldTime[0];
@@ -84,11 +87,11 @@ public class RenderMain {
                 //Reference.fpsFrame.pack();
 
                 if (Inventory.shouldUpdate) {
-                    RenderFunctions.Inv.color(new Color(Color.HSBtoRGB(Player.variables.rotation/360, 1, 1)));
+                    //RenderFunctions.Inv.color(new Color(Color.HSBtoRGB(Player.variables.rotation/360, 1, 1)));
 
-                    //invFrameBuffer[0] = invFrameRenderer();
-                    //frame2.setIcon(new ImageIcon(invFrameBuffer[0].getScaledInstance(Reference.invFrameSize.width - 16, Reference.invFrameSize.height - 39, Image.SCALE_FAST)));
-                    frame2.setIcon(new ImageIcon(Images.HOME_WALL_1.getImage().getScaledInstance(Reference.invFrameSize.width - 16, Reference.invFrameSize.height - 39, Image.SCALE_FAST)));
+                    invFrameBuffer[0] = invFrameRenderer();
+                    frame2.setIcon(new ImageIcon(invFrameBuffer[0].getScaledInstance(Reference.invFrameSize.width - 16, Reference.invFrameSize.height - 39, Image.SCALE_FAST)));
+                    //frame2.setIcon(new ImageIcon(Images.INV_TEMPLATE.getImage().getScaledInstance(Reference.invFrameSize.width - 16, Reference.invFrameSize.height - 39, Image.SCALE_FAST)));
                     Reference.invFrame.add(frame2);
 
                     Reference.invFrame.setLocation(Reference.invFramePos);
@@ -126,39 +129,47 @@ public class RenderMain {
 
         Timer timer = new Timer();
 
-        long intervalPeriod = 20;
+        long intervalPeriod = 40;
 
         timer.scheduleAtFixedRate(task, 0, intervalPeriod);
     }
 
     public BufferedImage gameFrameRenderer() {
         BufferedImage image = new BufferedImage(320, 240, BufferedImage.TYPE_INT_RGB);
-        Graphics g = image.createGraphics();
-        g.setColor(new Color(0xFF8000));
+        int[] rgbArray = new int[320 * 240];
 
         for (int Y = 0; Y < 240; Y++) {
             for (int X = 0; X < 320; X++) {
-                g.setColor(Reference.gameColors[X][Y]);
-
-                g.fillRect(X, Y, 1, 1);
+                Color color = Reference.gameColors[X][Y];
+                if (color != null) {
+                    rgbArray[Y * 320 + X] = color.getRGB();
+                } else {
+                    rgbArray[Y * 320 + X] = 0;
+                }
             }
         }
+
+        image.setRGB(0, 0, 320, 240, rgbArray, 0, 320);
 
         return image;
     }
 
     public BufferedImage invFrameRenderer() {
         BufferedImage image = new BufferedImage(320, 240, BufferedImage.TYPE_INT_RGB);
-        Graphics g = image.createGraphics();
-        g.setColor(new Color(0xFF8000));
+        int[] rgbArray = new int[320 * 240];
 
         for (int Y = 0; Y < 240; Y++) {
             for (int X = 0; X < 320; X++) {
-                g.setColor(Reference.invColors[X][Y]);
-
-                g.fillRect(X, Y, 1, 1);
+                Color color = Reference.invColors[X][Y];
+                if (color != null) {
+                    rgbArray[Y * 320 + X] = color.getRGB();
+                } else {
+                    rgbArray[Y * 320 + X] = 0;
+                }
             }
         }
+
+        image.setRGB(0, 0, 320, 240, rgbArray, 0, 320);
 
         return image;
     }

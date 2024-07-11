@@ -46,14 +46,77 @@ public class Images {
         return array;
     }
 
-    public static BufferedImage convertToBufferedImage(ImageIcon icon) {
-        Image image = icon.getImage().getScaledInstance(256, 256, Image.SCALE_FAST);
+    public static Color[][] generateColorArraysSmall(ImageIcon imageIcon) {
+        Color[][] array = new Color[16][16];
+        BufferedImage bufferedImage = convertToBufferedImage(imageIcon);
 
-        BufferedImage newImage = new BufferedImage(256, 256, BufferedImage.TYPE_INT_RGB);
+        for (int Y = 0; Y < 16; Y++) {
+            //System.out.println("Making color array: Row " + Y + " of 16");
+            for (int X = 0; X < 16; X++) {
+                int c = bufferedImage.getRGB(X,Y);
+
+                int alpha = (c >> 24) & 255;
+                int red   = (c >> 16) & 255;
+                int green = (c >> 8)  & 255;
+                int blue  = (c)       & 255;
+
+                array[X][Y] = new Color(red, green, blue, alpha);
+            }
+        }
+
+        return array;
+    }
+
+    public static Color[][] generateColorArraysLarge(ImageIcon imageIcon) {
+        Color[][] array = new Color[512][512];
+        BufferedImage bufferedImage = convertToBufferedImage(imageIcon);
+
+        for (int Y = 0; Y < 512; Y++) {
+            //System.out.println("Making color array: Row " + Y + " of 512");
+            for (int X = 0; X < 512; X++) {
+                int c = bufferedImage.getRGB(X,Y);
+
+                int alpha = (c >> 24) & 255;
+                int red   = (c >> 16) & 255;
+                int green = (c >> 8)  & 255;
+                int blue  = (c)       & 255;
+
+                array[X][Y] = new Color(red, green, blue, alpha);
+            }
+        }
+
+        return array;
+    }
+
+    public static Color[][] generateColorArraysScreen(ImageIcon imageIcon) {
+        Color[][] array = new Color[320][240];
+        BufferedImage bufferedImage = convertToBufferedImage(imageIcon);
+
+        for (int Y = 0; Y < 240; Y++) {
+            //System.out.println("Making color array: Row " + Y + " of 240");
+            for (int X = 0; X < 320; X++) {
+                int c = bufferedImage.getRGB(X,Y);
+
+                int alpha = (c >> 24) & 255;
+                int red   = (c >> 16) & 255;
+                int green = (c >> 8)  & 255;
+                int blue  = (c)       & 255;
+
+                array[X][Y] = new Color(red, green, blue, alpha);
+            }
+        }
+
+        return array;
+    }
+
+    public static BufferedImage convertToBufferedImage(ImageIcon icon) {
+        Image image = icon.getImage().getScaledInstance(icon.getIconWidth(), icon.getIconHeight(), Image.SCALE_FAST);
+
+        BufferedImage newImage = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_INT_RGB);
         Graphics2D g = newImage.createGraphics();
 
         g.setColor(new Color(0xFFFFFF));
-        g.fillRect(0, 0, 256, 256);
+        g.fillRect(0, 0, icon.getIconWidth(), icon.getIconHeight());
 
         new ImageIcon(image).paintIcon(null, g, 0, 0);
 
