@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Images {
-    public static String defaultPath = "..\\First Person Backrooms Game\\src\\main\\resources\\assets\\placeholder\\";
+    public static String defaultPath = "src\\main\\resources\\assets\\placeholder\\";
 
     public static ImageIcon HOME_WALL_1 = new ImageIcon(defaultPath + "textures\\misc\\VS--YouTube-TryingYourSTUPIDESTTacticsinWorldofTanks-15’47”.png");
     public static Color[][] HOME_WALL_1_COLORS = new Color[256][256];

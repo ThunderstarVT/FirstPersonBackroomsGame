@@ -42,7 +42,7 @@ public class Player {
                     return sector;
                 }
             }
-            return null;
+            return variables.current_level.l_sectors[0];
         }
     }
 }
